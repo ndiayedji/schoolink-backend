@@ -8,18 +8,23 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Connexion à MongoDB sans options obsolètes
+// Connexion à MongoDB
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => console.log('Connecté à MongoDB'))
   .catch((err) => console.error('Erreur de connexion à MongoDB:', err));
 
-const serviceAccount = require('./config/schoolink-firebase-adminsdk-abc123.json');
+// Initialisation de Firebase Admin avec variable d’environnement ou fichier local
+const serviceAccount = process.env.FIREBASE_SERVICE_ACCOUNT 
+  ? JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT) 
+  : require('./config/schoolink-firebase-adminsdk-abc123.json');
+
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
 });
 
 const User = require('./models/User');
 
+// Routes existantes (inchangées)
 app.post('/save-token', async (req, res) => {
   const { token, userId } = req.body;
   console.log('Requête reçue pour sauvegarder le token:', token, userId);
