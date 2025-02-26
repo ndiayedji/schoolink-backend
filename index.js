@@ -54,6 +54,15 @@ app.post('/add-performance', async (req, res) => {
   }
 });
 
+const io = require('socket.io')(server, {
+  cors: { 
+    origin: 'https://schoolink-seven.vercel.app', 
+    methods: ['GET', 'POST'], 
+    allowedHeaders: ['Content-Type'],
+    credentials: true 
+  }
+});
+
 app.post('/send-notification', async (req, res) => {
   const { userId, title, body } = req.body;
   try {
