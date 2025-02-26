@@ -40,6 +40,19 @@ app.post('/save-token', async (req, res) => {
     res.status(500).send('Erreur serveur');
   }
 });
+const Performance = require('./models/Performance');
+
+app.post('/add-performance', async (req, res) => {
+  const { userId, subject, grade, teacherId } = req.body;
+  try {
+    const performance = new Performance({ userId, subject, grade, teacherId });
+    await performance.save();
+    res.status(201).send('Performance enregistrée');
+  } catch (error) {
+    console.error('Erreur lors de l’enregistrement de la performance:', error);
+    res.status(500).send('Erreur serveur');
+  }
+});
 
 app.post('/send-notification', async (req, res) => {
   const { userId, title, body } = req.body;
