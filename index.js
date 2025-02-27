@@ -142,7 +142,7 @@ app.post('/generate-resource', async (req, res) => {
   }
 });
 
-app.get('/', (req, res) => {
+app.get('/', (_req, res) => {
   res.send('API Schoolink en ligne');
 });
 
